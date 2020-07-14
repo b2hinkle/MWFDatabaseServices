@@ -60,5 +60,13 @@
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Views" />
+    <Folder Include="dbo\Types" />
+    <Folder Include="PublishProfiles" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Stored Procedures\spGameInstance_CreateAndOutputId.sql" />
+    <Build Include="dbo\Stored Procedures\spGameInstance_DeleteById.sql" />
+    <Build Include="dbo\Tables\tblGameInstance.sql" />
+    <Build Include="dbo\Tables\tblHost.sql" />
   </ItemGroup>
 </Project>
