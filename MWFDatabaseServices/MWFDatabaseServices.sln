@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MWFDataTools", "MWFDataTools\MWFDataTools.sqlproj", "{E27FB316-13FF-45A4-A758-48F7C03010CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MWFModelsLibrary", "..\..\MultiplayerWebFramework\MultiplayerWebFramework\MWFModelsLibrary\MWFModelsLibrary.csproj", "{7BD194A9-2D02-4542-BCE6-EAF2642901E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MWFModelsLibrary", "..\MultiplayerWebFramework\MWFModelsLibrary\MWFModelsLibrary.csproj", "{7BD194A9-2D02-4542-BCE6-EAF2642901E6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MWFDataLibrary", "MWFDataLibrary\MWFDataLibrary.csproj", "{F0945E97-FE12-48B0-93BC-D7161A04C740}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseServicesAPIFunctionApp", "DatabaseServicesAPIFunctionApp\DatabaseServicesAPIFunctionApp.csproj", "{41919BC9-B064-4408-9F21-F85AC002AE80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MWFDatabaseServicesAPI", "MWFDatabaseServicesAPI\MWFDatabaseServicesAPI.csproj", "{187B2DAF-7808-479E-9512-99D26F186ED0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +31,10 @@ Global
 		{F0945E97-FE12-48B0-93BC-D7161A04C740}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0945E97-FE12-48B0-93BC-D7161A04C740}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0945E97-FE12-48B0-93BC-D7161A04C740}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41919BC9-B064-4408-9F21-F85AC002AE80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41919BC9-B064-4408-9F21-F85AC002AE80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41919BC9-B064-4408-9F21-F85AC002AE80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41919BC9-B064-4408-9F21-F85AC002AE80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187B2DAF-7808-479E-9512-99D26F186ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187B2DAF-7808-479E-9512-99D26F186ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187B2DAF-7808-479E-9512-99D26F186ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187B2DAF-7808-479E-9512-99D26F186ED0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
