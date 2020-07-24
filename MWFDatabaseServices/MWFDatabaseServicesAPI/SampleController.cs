@@ -37,7 +37,7 @@ namespace MWFDatabaseServicesAPI
 
             //  New way since NewtonSoft.Json is outdated. Implemented using (System.Text.Json)
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            JsonElement jsonBody = (JsonElement)(JsonSerializer.Deserialize<Object>(requestBody));
+            JsonElement jsonBody = JsonSerializer.Deserialize<JsonElement>(requestBody);
 
             name = name ?? jsonBody.GetProperty("name").ToString();
 

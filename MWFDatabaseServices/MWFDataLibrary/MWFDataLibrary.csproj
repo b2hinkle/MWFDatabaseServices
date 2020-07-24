@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MultiplayerWebFramework\MultiplayerWebFramework\MWFModelsLibrary\MWFModelsLibrary.csproj" />
+    <ProjectReference Include="..\..\MultiplayerWebFramework\MWFModelsLibrary\MWFModelsLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -61,7 +61,7 @@
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Types" />
     <Folder Include="dbo\Views" />
-    <Folder Include="PublishProfiles" />
+    <Folder Include="PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored Procedures\spGameInstance_CreateAndOutputId.sql" />
@@ -71,6 +71,6 @@
     <Build Include="dbo\Types\udtGameInstance.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PublishProfiles\LocalMultiplayerWebServicesDB.publish.xml" />
+    <None Include="PublishProfiles\MultiplayerWebFrameworkDB.publish.xml" />
   </ItemGroup>
 </Project>

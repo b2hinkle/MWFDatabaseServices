@@ -1,5 +1,5 @@
 ﻿using MWFDataLibrary.DataAccess;
-using MultiplayerFrameworkModelsLibrary.Models;
+using MWFModelsLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -29,11 +29,11 @@ namespace MWFDataLibrary.DataAccess
         }
 
         //  I should make a more advanced version eventually that is async to save some time
-        public static void SaveData/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters)
+        public static int ModifyData/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters)
         {
             using (IDbConnection cnn = new SqlConnection(connString))
             {
-                cnn.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
+                return cnn.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }
