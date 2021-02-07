@@ -13,6 +13,11 @@
     <ProjectReference Include="..\MWFDataLibrary\MWFDataLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MWFModelsLibrary">
+      <HintPath>..\..\..\MultiplayerWebFramework\MultiplayerWebFramework\MWFModelsLibrary\bin\Debug\netstandard2.0\MWFModelsLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

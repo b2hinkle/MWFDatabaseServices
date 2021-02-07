@@ -10,7 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MultiplayerWebFramework\MWFModelsLibrary\MWFModelsLibrary.csproj" />
+    <Reference Include="MWFModelsLibrary">
+      <HintPath>..\..\..\MultiplayerWebFramework\MultiplayerWebFramework\MWFModelsLibrary\bin\Debug\netstandard2.0\MWFModelsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
