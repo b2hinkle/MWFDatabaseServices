@@ -32,7 +32,7 @@ namespace MWFDatabaseServicesAPI
             string reqAssociatedHost = jsonBody.GetProperty("AssociatedHost").GetString();
 
             // hard coded connection string for now
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             // call on the data processor and store the returned Id
             int retVal = GameInstanceProcessor.CreateGameInstanceAndReturnId(connectionString, reqGame, reqArgs, reqAssociatedHost);
 

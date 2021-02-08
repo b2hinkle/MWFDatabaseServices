@@ -45,13 +45,11 @@ namespace MWFDataLibrary.BuisnessLogic
             return SqlDataAccess.ModifyData(connString, storedProcedureName, parameters);
         }
 
-        public static IEnumerable<GameInstanceModel> LoadGameInstances(string connString)
+        public static IEnumerable<GameInstanceModel> GetGameInstances(string connString)
         {
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"select * from dbo.GameInstanceTable;";
-            return SqlDataAccess.LoadData<GameInstanceModel>(sql, connString);*/
-
-            throw new NotImplementedException();
+            // New way (using stored procedure)
+            string storedProcedureName = "spGameInstance_SelectAll";
+            return SqlDataAccess.LoadData<GameInstanceModel>(connString, storedProcedureName);
         }
     }
 }

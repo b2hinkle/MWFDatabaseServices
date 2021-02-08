@@ -18,8 +18,8 @@ namespace MWFDataLibrary.DataAccess
     internal static class SqlDataAccess
     {
         //  90% of loading data will call this. However if you want a stored procedure with output parameters, the caller
-        //  will need to know about Dapper since it will need to use the dynamic parameters type 
-        public static IEnumerable<T> LoadData<T/*, U*/>(string connString, string storedProcedureName, object/*U*/ parameters)
+        //  will need to know about Dapper if passing in parameters since it will need to use the dynamic parameters type 
+        public static IEnumerable<T> LoadData<T/*, U*/>(string connString, string storedProcedureName, object/*U*/ parameters = null)
         {
             using (IDbConnection cnn = new SqlConnection(connString))
             {
@@ -29,7 +29,7 @@ namespace MWFDataLibrary.DataAccess
         }
 
         //  I should make a more advanced version eventually that is async to save some time
-        public static int ModifyData/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters)
+        public static int ModifyData/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters = null)
         {
             using (IDbConnection cnn = new SqlConnection(connString))
             {
