@@ -35,7 +35,7 @@ namespace MWFDatabaseServicesAPI
             // hard coded connection string for now
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             // call on the data processor and store the returned Id
-            int retVal = GameInstanceProcessor.CreateGameInstanceAndReturnId(connectionString, reqGame, reqArgs, reqAssociatedHost);
+            int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqArgs, reqAssociatedHost);
 
             return new OkObjectResult(retVal);
         }
@@ -53,21 +53,21 @@ namespace MWFDatabaseServicesAPI
             int gameInstanceId = int.Parse(requestBody);
 
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            int rowsDeleted = GameInstanceProcessor.DeleteGameInstanceById(connectionString, gameInstanceId);
+            int rowsDeleted = await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
 
             // Passing an int into the OkObjectResult will put the int in the body
             return new OkObjectResult(rowsDeleted);
         }
 
-/*        [FunctionName("GetGameInstances")]
+        [FunctionName("GetGameInstances")]
         public static async Task<IActionResult> GetGameInstances(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            IEnumerable<GameInstanceModel> GameInstances = GameInstanceProcessor.GetGameInstances(connectionString);
+            IEnumerable<GameInstanceModel> GameInstances = await GameInstanceProcessor.GetGameInstancesAsync(connectionString);
             // Passing an IEnumerable into the OkObjectResult will put it in the body
             return new OkObjectResult(GameInstances);
-        }*/
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace MWFDataLibrary.BuisnessLogic
 {
     public static class GameInstanceProcessor
     {
-        public static int CreateGameInstanceAndReturnId(string connString, int game, string args, string associatedHost)
+        public static async Task<int> CreateGameInstanceAndReturnIdAsync(string connString, int game, string args, string associatedHost)
         {
             // name of stored procedure to execute
             string procedureName = "spGameInstance_CreateAndOutputId";
@@ -30,12 +30,12 @@ namespace MWFDataLibrary.BuisnessLogic
             parameters.Add("@outId", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
             // execute our stored procedure with the parameters we made
-            SqlDataAccess.ModifyData(connString, procedureName, parameters);
+            await SqlDataAccess.ModifyDataAsync(connString, procedureName, parameters);
             // return the outputed id from the stored procedure
             return parameters.Get<int>("@outId");
         }
 
-        public static int DeleteGameInstanceById(string connString, int id)
+        public static async Task<int> DeleteGameInstanceByIdAsync(string connString, int id)
         {
             string storedProcedureName = "spGameInstance_DeleteById";
 
@@ -43,7 +43,7 @@ namespace MWFDataLibrary.BuisnessLogic
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@inId", id, dbType: DbType.Int32);
 
-            return SqlDataAccess.ModifyData(connString, storedProcedureName, parameters);
+            return await SqlDataAccess.ModifyDataAsync(connString, storedProcedureName, parameters);
         }
 
         public static async Task<IEnumerable<GameInstanceModel>> GetGameInstancesAsync(string connString)
