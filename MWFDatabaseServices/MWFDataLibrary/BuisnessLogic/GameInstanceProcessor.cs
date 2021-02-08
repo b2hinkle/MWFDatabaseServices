@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
+using System.Threading.Tasks;
 
 namespace MWFDataLibrary.BuisnessLogic
 {
@@ -45,11 +46,10 @@ namespace MWFDataLibrary.BuisnessLogic
             return SqlDataAccess.ModifyData(connString, storedProcedureName, parameters);
         }
 
-        public static IEnumerable<GameInstanceModel> GetGameInstances(string connString)
+        public static async Task<IEnumerable<GameInstanceModel>> GetGameInstancesAsync(string connString)
         {
-            // New way (using stored procedure)
             string storedProcedureName = "spGameInstance_SelectAll";
-            return SqlDataAccess.LoadData<GameInstanceModel>(connString, storedProcedureName);
+            return await SqlDataAccess.LoadDataAsync<GameInstanceModel>(connString, storedProcedureName);
         }
     }
 }

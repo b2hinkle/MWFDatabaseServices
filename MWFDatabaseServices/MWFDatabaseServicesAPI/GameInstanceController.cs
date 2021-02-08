@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using MWFDataLibrary.BuisnessLogic;
 using System.Text.Json;
 using MWFModelsLibrary.Models;
+using System.Collections.Generic;
 
 namespace MWFDatabaseServicesAPI
 {
@@ -57,5 +58,16 @@ namespace MWFDatabaseServicesAPI
             // Passing an int into the OkObjectResult will put the int in the body
             return new OkObjectResult(rowsDeleted);
         }
+
+/*        [FunctionName("GetGameInstances")]
+        public static async Task<IActionResult> GetGameInstances(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            IEnumerable<GameInstanceModel> GameInstances = GameInstanceProcessor.GetGameInstances(connectionString);
+            // Passing an IEnumerable into the OkObjectResult will put it in the body
+            return new OkObjectResult(GameInstances);
+        }*/
     }
 }

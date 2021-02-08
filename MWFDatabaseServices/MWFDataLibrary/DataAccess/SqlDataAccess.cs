@@ -2,6 +2,7 @@
 using Dapper;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Threading.Tasks;
 
 /*  Dapper functions notes
          *  Query: Use when loading data since you will probably want the rows returned to you
@@ -36,5 +37,26 @@ namespace MWFDataLibrary.DataAccess
                 return cnn.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
             }
         }
+
+
+
+        public static async Task<IEnumerable<T>> LoadDataAsync<T/*, U*/>(string connString, string storedProcedureName, object/*U*/ parameters = null)
+        {
+            using (IDbConnection cnn = new SqlConnection(connString))
+            {
+                return await cnn.QueryAsync<T>(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public static async Task<int> ModifyDataAsync/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters = null)
+        {
+            using (IDbConnection cnn = new SqlConnection(connString))
+            {
+                return await cnn.ExecuteAsync(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+
+
     }
 }
