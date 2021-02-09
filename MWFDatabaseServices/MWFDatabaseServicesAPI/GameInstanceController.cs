@@ -61,7 +61,7 @@ namespace MWFDatabaseServicesAPI
 
         [FunctionName("GetGameInstances")]
         public static async Task<IActionResult> GetGameInstances(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
