@@ -1,7 +1,7 @@
-﻿CREATE TABLE [dbo].[tblGameInstance]
-(
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Game] INT NOT NULL, 
-    [Args] VARCHAR(64) NOT NULL, 
-    [AssociatedHost] VARCHAR(32) NOT NULL
-)
+﻿CREATE TABLE [dbo].[tblGameInstance] (
+    [Id]             INT          IDENTITY (1, 1) NOT NULL,
+    [Game]           INT          NOT NULL,
+    [Args]           VARCHAR (64) NOT NULL,
+    [HostId]	INT FOREIGN KEY REFERENCES tblHost(Id) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);

@@ -71,8 +71,4 @@
     <Build Include="dbo\Types\udtGameInstance.sql" />
     <Build Include="dbo\Stored Procedures\spGameInstance_SelectAll.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="MWFDataTools.publish.xml" />
-    <None Include="PublishProfiles\MWFDataTools.publish.xml" />
-  </ItemGroup>
 </Project>

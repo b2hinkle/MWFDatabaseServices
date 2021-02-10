@@ -30,12 +30,12 @@ namespace MWFDatabaseServicesAPI
             // get all of the values we need for the GameInstanceProcessor (maybe deserialize json to a GameInstanceModel instead? Or maybe just pass a GameInstanceModel with a null Id to this endpoint)
             int reqGame = jsonBody.GetProperty("Game").GetInt32();
             string reqArgs = jsonBody.GetProperty("Args").GetString();
-            string reqAssociatedHost = jsonBody.GetProperty("AssociatedHost").GetString();
+            int reqHostId = jsonBody.GetProperty("HostId").GetInt32();
 
             // hard coded connection string for now
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             // call on the data processor and store the returned Id
-            int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqArgs, reqAssociatedHost);
+            int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqArgs, reqHostId);
 
             return new OkObjectResult(retVal);
         }
@@ -52,7 +52,7 @@ namespace MWFDatabaseServicesAPI
             string requestBody = await req.ReadAsStringAsync();
             int gameInstanceId = int.Parse(requestBody);
 
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             int rowsDeleted = await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
 
             // Passing an int into the OkObjectResult will put the int in the body
@@ -64,7 +64,7 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MultiplayerWebFrameworkDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             IEnumerable<GameInstanceModel> GameInstances = await GameInstanceProcessor.GetGameInstancesAsync(connectionString);
             // Passing an IEnumerable into the OkObjectResult will put it in the body
             return new OkObjectResult(GameInstances);

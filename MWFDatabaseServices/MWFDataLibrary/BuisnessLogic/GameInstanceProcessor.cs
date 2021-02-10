@@ -10,7 +10,7 @@ namespace MWFDataLibrary.BuisnessLogic
 {
     public static class GameInstanceProcessor
     {
-        public static async Task<int> CreateGameInstanceAndReturnIdAsync(string connString, int game, string args, string associatedHost)
+        public static async Task<int> CreateGameInstanceAndReturnIdAsync(string connString, int game, string args, int hostId)
         {
             // name of stored procedure to execute
             string procedureName = "spGameInstance_CreateAndOutputId";
@@ -20,9 +20,9 @@ namespace MWFDataLibrary.BuisnessLogic
             DataTable gameInstanceTable = new DataTable("@inGameInstance");
             gameInstanceTable.Columns.Add("Game", typeof(int));
             gameInstanceTable.Columns.Add("Args");
-            gameInstanceTable.Columns.Add("AssociatedHost");
+            gameInstanceTable.Columns.Add("HostId");
             // fill in the data
-            gameInstanceTable.Rows.Add(game, args, associatedHost);
+            gameInstanceTable.Rows.Add(game, args, hostId);
 
             // make parameters to pass to the stored procedure
             DynamicParameters parameters = new DynamicParameters();
