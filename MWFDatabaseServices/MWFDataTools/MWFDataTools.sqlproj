@@ -70,5 +70,7 @@
     <Build Include="dbo\Tables\tblHost.sql" />
     <Build Include="dbo\Types\udtGameInstance.sql" />
     <Build Include="dbo\Stored Procedures\spGameInstance_SelectAll.sql" />
+    <Build Include="dbo\Views\vwGameInstanceWithHostIp.sql" />
+    <Build Include="dbo\Stored Procedures\spGameInstanceWithHost_SelectAll.sql" />
   </ItemGroup>
 </Project>

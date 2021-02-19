@@ -51,5 +51,10 @@ namespace MWFDataLibrary.BuisnessLogic
             string storedProcedureName = "spGameInstance_SelectAll";
             return await SqlDataAccess.LoadDataAsync<GameInstanceModel>(connString, storedProcedureName);
         }
+        public static async Task<IEnumerable<GameInstanceWithHostIpModel>> GetGameInstancesWithHostsAsync(string connString)
+        {
+            string storedProcedureName = "spGameInstanceWithHost_SelectAll";
+            return await SqlDataAccess.LoadDataAsync<GameInstanceWithHostIpModel>(connString, storedProcedureName);
+        }
     }
 }

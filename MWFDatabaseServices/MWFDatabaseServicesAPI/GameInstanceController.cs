@@ -69,5 +69,16 @@ namespace MWFDatabaseServicesAPI
             // Passing an IEnumerable into the OkObjectResult will put it in the body
             return new OkObjectResult(GameInstances);
         }
+
+        [FunctionName("GetGameInstancesWithHostIps")]
+        public static async Task<IActionResult> GetGameInstancesWithHostIps(
+    [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+    ILogger log)
+        {
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            IEnumerable<GameInstanceWithHostIpModel> GameInstancesWithHostIps = await GameInstanceProcessor.GetGameInstancesWithHostsAsync(connectionString);
+            // Passing an IEnumerable into the OkObjectResult will put it in the body
+            return new OkObjectResult(GameInstancesWithHostIps);
+        }
     }
 }
