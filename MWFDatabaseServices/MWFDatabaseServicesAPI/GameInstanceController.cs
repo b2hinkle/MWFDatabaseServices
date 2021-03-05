@@ -29,13 +29,14 @@ namespace MWFDatabaseServicesAPI
 
             // get all of the values we need for the GameInstanceProcessor (maybe deserialize json to a GameInstanceModel instead? Or maybe just pass a GameInstanceModel with a null Id to this endpoint)
             int reqGame = jsonBody.GetProperty("Game").GetInt32();
+            string reqPort = jsonBody.GetProperty("Port").GetString();
             string reqArgs = jsonBody.GetProperty("Args").GetString();
             int reqHostId = jsonBody.GetProperty("HostId").GetInt32();
 
             // hard coded connection string for now
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             // call on the data processor and store the returned Id
-            int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqArgs, reqHostId);
+            int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqPort, reqArgs, reqHostId);
 
             return new OkObjectResult(retVal);
         }
@@ -79,6 +80,14 @@ namespace MWFDatabaseServicesAPI
             IEnumerable<GameInstanceWithHostIpModel> GameInstancesWithHostIps = await GameInstanceProcessor.GetGameInstancesWithHostsAsync(connectionString);
             // Passing an IEnumerable into the OkObjectResult will put it in the body
             return new OkObjectResult(GameInstancesWithHostIps);
+        }
+
+        [FunctionName("GetSomething")]
+        public static async Task<IActionResult> GetSomething(
+[HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+ILogger log)
+        {
+            return new OkObjectResult(425);
         }
     }
 }

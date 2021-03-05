@@ -73,4 +73,11 @@
     <Build Include="dbo\Views\vwGameInstanceWithHostIp.sql" />
     <Build Include="dbo\Stored Procedures\spGameInstanceWithHost_SelectAll.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="MWFDataTools.publish.xml" />
+    <None Include="MWFDatabaseServicesDb.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="MWFDataTools.refactorlog" />
+  </ItemGroup>
 </Project>

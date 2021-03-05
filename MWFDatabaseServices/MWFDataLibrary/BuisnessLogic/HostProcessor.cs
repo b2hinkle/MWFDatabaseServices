@@ -8,13 +8,12 @@ namespace MWFDataLibrary.BuisnessLogic
 {
     class HostProcessor
     {
-        public static int CreateHosts(string serverIP, string gameInstancesManagementApiIp, string gameInstancesManagementApiPort, bool isActive, string connString)
+        public static int CreateHosts(string hostIp, string hostServicesAPISocketAddress, bool isActive, string connString)
         {
             var parameters = new
             {
-                ServerIP = serverIP,
-                GameInstancesManagementApiIp = gameInstancesManagementApiIp,
-                GameInstancesManagementApiPort = gameInstancesManagementApiPort,
+                HostIp = hostIp,
+                HostServicesAPISocketAddress = hostServicesAPISocketAddress,
                 IsActive = isActive
             };
 

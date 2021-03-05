@@ -29,7 +29,7 @@ namespace MWFDataLibrary.DataAccess
             }
         }
 
-        //  I should make a more advanced version eventually that is async to save some time
+
         public static int ModifyData/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters = null)
         {
             using (IDbConnection cnn = new SqlConnection(connString))
