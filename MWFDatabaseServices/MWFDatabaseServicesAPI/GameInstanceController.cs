@@ -38,6 +38,7 @@ namespace MWFDatabaseServicesAPI
             // call on the data processor and store the returned Id
             int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqPort, reqArgs, reqHostId);
 
+            // Remember, returning a good result means the game instance is currentlly running
             return new OkObjectResult(retVal);
         }
 
