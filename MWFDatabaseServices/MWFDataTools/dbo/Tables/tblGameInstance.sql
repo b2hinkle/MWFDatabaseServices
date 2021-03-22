@@ -9,5 +9,6 @@
 );
 GO
 
+-- Create unique non clusterted index for tblGameInstance. No two game instances on the same host can have the same port number.
 CREATE UNIQUE INDEX UIX_HostID_Port
 ON [dbo].[tblGameInstance] ([HostId], [Port]);
