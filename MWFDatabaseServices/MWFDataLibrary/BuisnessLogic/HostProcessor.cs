@@ -6,9 +6,9 @@ using System.Text;
 
 namespace MWFDataLibrary.BuisnessLogic
 {
-    class HostProcessor
+    public class HostProcessor
     {
-        public static int CreateHosts(string hostIp, string hostServicesAPISocketAddress, bool isActive, string connString)
+        public static int CreateHost(string hostIp, string hostServicesAPISocketAddress, bool isActive, string connString)
         {
             var parameters = new
             {
