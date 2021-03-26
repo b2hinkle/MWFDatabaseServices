@@ -3,6 +3,7 @@ using MWFModelsLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MWFDataLibrary.BuisnessLogic
 {
@@ -34,13 +35,10 @@ namespace MWFDataLibrary.BuisnessLogic
             throw new NotImplementedException();
         }
 
-        public static IEnumerable<HostModel> LoadHosts(string connString)
+        public static async Task<IEnumerable<HostModel>> GetHostsAsync(string connString)
         {
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"select * from dbo.ServerTable;";
-            return SqlDataAccess.LoadData<HostModel>(sql, connString);*/
-
-            throw new NotImplementedException();
+            string storedProcedureName = "spHost_SelectAll";
+            return await SqlDataAccess.LoadDataAsync<HostModel>(connString, storedProcedureName);
         }
     }
 }
