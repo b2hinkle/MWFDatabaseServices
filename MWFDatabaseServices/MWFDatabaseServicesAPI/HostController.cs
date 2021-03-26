@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,7 @@ namespace MWFDatabaseServicesAPI
 {
     public static class HostController
     {
-        [FunctionName("CreateHostAndReturnId")]
+        /*[FunctionName("CreateHostAndReturnId")]
         public static async Task<IActionResult> CreateHostAndReturnId(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
@@ -25,7 +25,7 @@ namespace MWFDatabaseServicesAPI
             // get the body in json format (there may be a better way to do this)
             string requestBody = await req.ReadAsStringAsync();
             JsonElement jsonBody = JsonSerializer.Deserialize<JsonElement>(requestBody);
-            *//*HostModel host = JsonSerializer.Deserialize<HostModel>(requestBody);*//*
+            HostModel host = JsonSerializer.Deserialize<HostModel>(requestBody);
 
             // get all of the values we need for the HostProcessor (maybe deserialize json to a HostModel instead? Or maybe just pass a HostModel with a null Id to this endpoint)
             int reqGame = jsonBody.GetProperty("Game").GetInt32();
@@ -47,7 +47,7 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("hostID = " *//*+ hostID.ToString()*//*);
+            log.LogInformation("hostID = " + hostID.ToString());
 
 
             // get the body in json format (there may be a better way to do this)
@@ -59,7 +59,7 @@ namespace MWFDatabaseServicesAPI
 
             // Passing an int into the OkObjectResult will put the int in the body
             return new OkObjectResult(rowsDeleted);
-        }
+        }*/
 
         [FunctionName("GetHosts")]
         public static async Task<IActionResult> GetHosts(
@@ -74,4 +74,3 @@ namespace MWFDatabaseServicesAPI
 
     }
 }
-*/
