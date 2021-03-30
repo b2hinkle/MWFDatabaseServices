@@ -82,13 +82,5 @@ namespace MWFDatabaseServicesAPI
             // Passing an IEnumerable into the OkObjectResult will put it in the body
             return new OkObjectResult(GameInstancesWithHostIps);
         }
-
-        [FunctionName("GetSomething")]
-        public static async Task<IActionResult> GetSomething(
-[HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
-ILogger log)
-        {
-            return new OkObjectResult(425);
-        }
     }
 }
