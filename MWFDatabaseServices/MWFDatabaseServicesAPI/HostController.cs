@@ -40,15 +40,12 @@ namespace MWFDatabaseServicesAPI
             return new OkObjectResult(retVal);
         }
 
-        /*[FunctionName("DeleteHostById")]
+        [FunctionName("DeleteHostById")]
         public static async Task<IActionResult> DeleteHostById(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("hostID = " + hostID.ToString());
-
-
-            // get the body in json format (there may be a better way to do this)
+            // get the body in json format
             string requestBody = await req.ReadAsStringAsync();
             int hostId = int.Parse(requestBody);
 
@@ -57,7 +54,7 @@ namespace MWFDatabaseServicesAPI
 
             // Passing an int into the OkObjectResult will put the int in the body
             return new OkObjectResult(rowsDeleted);
-        }*/
+        }
 
         [FunctionName("GetHosts")]
         public static async Task<IActionResult> GetHosts(

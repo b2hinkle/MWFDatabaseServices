@@ -36,13 +36,15 @@ namespace MWFDataLibrary.BuisnessLogic
             return parameters.Get<int>("@outId");
         }
 
-        public static int RemoveHost(string serverIP, string connString)
+        public static async Task<int> DeleteHostByIdAsync(string connString, int id)
         {
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"DELETE FROM dbo.ServerTable WHERE ServerIP=@ServerIP;";
-            return SqlDataAccess.ModifyDatabase(sql, connString, new { ServerIP = serverIP });*/
+            string storedProcedureName = "spHost_DeleteById";
 
-            throw new NotImplementedException();
+            // make parameters to pass to the stored procedure
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@inId", id, dbType: DbType.Int32);
+
+            return await SqlDataAccess.ModifyDataAsync(connString, storedProcedureName, parameters);
         }
 
         public static async Task<IEnumerable<HostModel>> GetHostsAsync(string connString)
