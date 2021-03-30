@@ -15,34 +15,32 @@ namespace MWFDatabaseServicesAPI
 {
     public static class HostController
     {
-        /*[FunctionName("CreateHostAndReturnId")]
+        [FunctionName("CreateHostAndReturnId")]
         public static async Task<IActionResult> CreateHostAndReturnId(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("processing CreateHostAndReturnId endpoint");
 
-            // get the body in json format (there may be a better way to do this)
+            // get the body in json format
             string requestBody = await req.ReadAsStringAsync();
             JsonElement jsonBody = JsonSerializer.Deserialize<JsonElement>(requestBody);
-            HostModel host = JsonSerializer.Deserialize<HostModel>(requestBody);
 
             // get all of the values we need for the HostProcessor (maybe deserialize json to a HostModel instead? Or maybe just pass a HostModel with a null Id to this endpoint)
-            int reqGame = jsonBody.GetProperty("Game").GetInt32();
-            string reqPort = jsonBody.GetProperty("Port").GetString();
-            string reqArgs = jsonBody.GetProperty("Args").GetString();
-            int reqHostId = jsonBody.GetProperty("HostId").GetInt32();
+            string reqHostIp = jsonBody.GetProperty("HostIp").GetString();
+            string reqHostServicesAPISocketAddress = jsonBody.GetProperty("HostServicesAPISocketAddress").GetString();
+            bool reqIsActive = jsonBody.GetProperty("IsActive").GetBoolean();
 
             // hard coded connection string for now
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             // call on the data processor and store the returned Id
-            int retVal = await HostProcessor.CreateHostAndReturnIdAsync(connectionString, reqGame, reqPort, reqArgs, reqHostId);
+            int retVal = await HostProcessor.CreateHostAndReturnIdAsync(connectionString, reqHostIp, reqHostServicesAPISocketAddress, reqIsActive);
 
-            // Remember, returning a good result means the game instance is currentlly running
+            // Returning a good result tells the host that he was successfully added to the database
             return new OkObjectResult(retVal);
         }
 
-        [FunctionName("DeleteHostById")]
+        /*[FunctionName("DeleteHostById")]
         public static async Task<IActionResult> DeleteHostById(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)

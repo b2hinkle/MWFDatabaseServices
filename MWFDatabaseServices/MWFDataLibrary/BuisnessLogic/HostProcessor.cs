@@ -9,19 +9,9 @@ namespace MWFDataLibrary.BuisnessLogic
 {
     public class HostProcessor
     {
-        public static int CreateHost(string hostIp, string hostServicesAPISocketAddress, bool isActive, string connString)
+        public static async Task<int> CreateHostAndReturnIdAsync(string connectionString, string reqHostIp, string reqHostServicesAPISocketAddress, bool reqIsActive)
         {
-            var parameters = new
-            {
-                HostIp = hostIp,
-                HostServicesAPISocketAddress = hostServicesAPISocketAddress,
-                IsActive = isActive
-            };
-
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"insert into dbo.ServerTable (ServerIP, GameInstancesManagementApiIp, GameInstancesManagementApiPort, IsActive)
-                         values (@ServerIP, @GameInstancesManagementApiIp, @GameInstancesManagementApiPort, @IsActive);";
-            return SqlDataAccess.ModifyDatabase(connString, sql, parameters);*/
+            
 
             throw new NotImplementedException();
         }
