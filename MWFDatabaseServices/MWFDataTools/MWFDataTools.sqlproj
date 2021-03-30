@@ -72,6 +72,8 @@
     <Build Include="dbo\Views\vwGameInstanceWithHostIp.sql" />
     <Build Include="dbo\Stored Procedures\GameInstance\spGameInstance_CreateAndOutputId.sql" />
     <Build Include="dbo\Stored Procedures\Host\spHost_SelectAll.sql" />
+    <Build Include="dbo\Stored Procedures\Host\spHost_CreateAndOutputId.sql" />
+    <Build Include="dbo\Types\udtHost.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MWFDataTools.publish.xml" />
