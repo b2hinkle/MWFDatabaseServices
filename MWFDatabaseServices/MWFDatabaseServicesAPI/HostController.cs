@@ -10,6 +10,8 @@ using MWFDataLibrary.BuisnessLogic;
 using System.Text.Json;
 using MWFModelsLibrary.Models;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Web;
 
 namespace MWFDatabaseServicesAPI
 {
@@ -58,18 +60,24 @@ namespace MWFDatabaseServicesAPI
 
         [FunctionName("DeleteHostById")]
         public static async Task<IActionResult> DeleteHostById(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req,
             ILogger log)
         {
-            // get the body in json format
-            string requestBody = await req.ReadAsStringAsync();
-            int hostId = int.Parse(requestBody);
+            int hostId;
+            try
+            {
+                NameValueCollection queryStringMap = HttpUtility.ParseQueryString(req.QueryString.Value);
+                hostId = int.Parse(queryStringMap["Id"]);
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new BadRequestObjectResult("Request didn't meet syntax requirements (make sure you include everything and have the correct property types)");
+            }
 
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             int rowsDeleted = await HostProcessor.DeleteHostByIdAsync(connectionString, hostId);
-
-            // Passing an int into the OkObjectResult will put the int in the body
-            return new OkObjectResult(rowsDeleted);
+            return new OkObjectResult("Row with passed in Id deleted");
         }
 
         [FunctionName("GetHosts")]

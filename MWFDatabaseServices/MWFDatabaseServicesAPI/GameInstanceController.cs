@@ -82,7 +82,7 @@ namespace MWFDatabaseServicesAPI
 
             // Maybe have the sp throw exception if id passed in doesn't exist and we can do a try catch here to give a more specific response message
             await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
-            return new OkObjectResult("If correct Id was passed in, row deleted");
+            return new OkObjectResult("Row with passed in Id deleted");
         }
 
         [FunctionName("GetGameInstances")]
