@@ -40,7 +40,7 @@ namespace MWFDatabaseServicesAPI
             catch (Exception e)
             {
                 log.LogError(e, e.Message);
-                return new BadRequestObjectResult("Request didn't meet syntax requirements (maybe change your property types)");
+                return new BadRequestObjectResult("Request didn't meet syntax requirements (make sure you include everything and have the correct property types)");
             }
 
 

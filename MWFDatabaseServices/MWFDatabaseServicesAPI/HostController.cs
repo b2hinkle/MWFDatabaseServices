@@ -27,17 +27,35 @@ namespace MWFDatabaseServicesAPI
             JsonElement jsonBody = JsonSerializer.Deserialize<JsonElement>(requestBody);
 
             // get all of the values we need for the HostProcessor (maybe deserialize json to a HostModel instead? Or maybe just pass a HostModel with a null Id to this endpoint)
-            string reqHostIp = jsonBody.GetProperty("HostIp").GetString();
-            string reqHostServicesAPISocketAddress = jsonBody.GetProperty("HostServicesAPISocketAddress").GetString();
-            bool reqIsActive = jsonBody.GetProperty("IsActive").GetBoolean();
+            string reqHostIp;
+            string reqHostServicesAPISocketAddress;
+            bool reqIsActive;
+            try
+            {
+                reqHostIp = jsonBody.GetProperty("HostIp").GetString();
+                reqHostServicesAPISocketAddress = jsonBody.GetProperty("HostServicesAPISocketAddress").GetString();
+                reqIsActive = jsonBody.GetProperty("IsActive").GetBoolean();
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new BadRequestObjectResult("Request didn't meet syntax requirements (make sure you include everything and have the correct property types)");
+            }
 
-            // hard coded connection string for now
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             // call on the data processor and store the returned Id
-            int retVal = await HostProcessor.CreateHostAndReturnIdAsync(connectionString, reqHostIp, reqHostServicesAPISocketAddress, reqIsActive);
-
-            // Returning a good result tells the host that he was successfully added to the database
-            return new OkObjectResult(retVal);
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            try
+            {
+                int retVal = await HostProcessor.CreateHostAndReturnIdAsync(connectionString, reqHostIp, reqHostServicesAPISocketAddress, reqIsActive);
+                return new OkObjectResult(retVal);
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new ConflictObjectResult("Conflict when inserting into the database");
+            }
+            
+            
         }
 
         [FunctionName("DeleteHostById")]
