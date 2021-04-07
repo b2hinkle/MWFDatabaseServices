@@ -20,7 +20,6 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            // get the body in json format (there may be a better way to do this)
             string requestBody = await req.ReadAsStringAsync();
             JsonElement jsonBody = JsonSerializer.Deserialize<JsonElement>(requestBody);
             /*GameInstanceModel gameInstance = JsonSerializer.Deserialize<GameInstanceModel>(requestBody);*/
@@ -62,10 +61,9 @@ namespace MWFDatabaseServicesAPI
 
         [FunctionName("DeleteGameInstanceById")]
         public static async Task<IActionResult> DeleteGameInstanceById(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req,
             ILogger log)
         {
-            // get the body in json format (there may be a better way to do this)
             string requestBody = await req.ReadAsStringAsync();
             int gameInstanceId = int.Parse(requestBody);
 
