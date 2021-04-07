@@ -20,8 +20,6 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("processing CreateHostAndReturnId endpoint");
-
             // get the body in json format
             string requestBody = await req.ReadAsStringAsync();
             JsonElement jsonBody = JsonSerializer.Deserialize<JsonElement>(requestBody);

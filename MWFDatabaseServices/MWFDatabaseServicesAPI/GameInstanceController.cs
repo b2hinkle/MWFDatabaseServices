@@ -65,9 +65,6 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("gameInstanceID = " /*+ gameinstanceID.ToString()*/);
-
-
             // get the body in json format (there may be a better way to do this)
             string requestBody = await req.ReadAsStringAsync();
             int gameInstanceId = int.Parse(requestBody);
