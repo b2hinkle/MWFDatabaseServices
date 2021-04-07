@@ -10,6 +10,8 @@ using MWFDataLibrary.BuisnessLogic;
 using System.Text.Json;
 using MWFModelsLibrary.Models;
 using System.Collections.Generic;
+using System.Web;
+using System.Collections.Specialized;
 
 namespace MWFDatabaseServicesAPI
 {
@@ -64,9 +66,9 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string requestBody = await req.ReadAsStringAsync();
-            int gameInstanceId = int.Parse(requestBody);
-
+            NameValueCollection queryStringMap = HttpUtility.ParseQueryString(req.QueryString.Value);
+            int gameInstanceId = int.Parse(queryStringMap["Id"]);
+            
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             int rowsDeleted = await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
 
