@@ -20,26 +20,44 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("processing CreateGameInstanceAndReturnId endpoint");
-
             // get the body in json format (there may be a better way to do this)
             string requestBody = await req.ReadAsStringAsync();
             JsonElement jsonBody = JsonSerializer.Deserialize<JsonElement>(requestBody);
             /*GameInstanceModel gameInstance = JsonSerializer.Deserialize<GameInstanceModel>(requestBody);*/
 
             // get all of the values we need for the GameInstanceProcessor (maybe deserialize json to a GameInstanceModel instead? Or maybe just pass a GameInstanceModel with a null Id to this endpoint)
-            int reqGame = jsonBody.GetProperty("Game").GetInt32();
-            string reqPort = jsonBody.GetProperty("Port").GetString();
-            string reqArgs = jsonBody.GetProperty("Args").GetString();
-            int reqHostId = jsonBody.GetProperty("HostId").GetInt32();
+            int reqGame;
+            string reqPort;
+            string reqArgs;
+            int reqHostId;
+            try
+            {
+                reqGame = jsonBody.GetProperty("Game").GetInt32();
+                reqPort = jsonBody.GetProperty("Port").GetString();
+                reqArgs = jsonBody.GetProperty("Args").GetString();
+                reqHostId = jsonBody.GetProperty("HostId").GetInt32();
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new BadRequestObjectResult("Request didn't meet syntax requirements (maybe change your property types)");
+            }
 
-            // hard coded connection string for now
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
             // call on the data processor and store the returned Id
-            int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqPort, reqArgs, reqHostId);
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            try
+            {
+                int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqPort, reqArgs, reqHostId);
+                // Returning a success code means we continue running the newly created game instance process
+                return new OkObjectResult(retVal);
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new ConflictObjectResult("Conflict when inserting into the database");
+            }
 
-            // Remember, returning a good result means the game instance is currentlly running
-            return new OkObjectResult(retVal);
         }
 
         [FunctionName("DeleteGameInstanceById")]
