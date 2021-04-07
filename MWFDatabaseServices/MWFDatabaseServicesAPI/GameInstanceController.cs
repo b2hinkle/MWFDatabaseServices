@@ -66,14 +66,29 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req,
             ILogger log)
         {
-            NameValueCollection queryStringMap = HttpUtility.ParseQueryString(req.QueryString.Value);
-            int gameInstanceId = int.Parse(queryStringMap["Id"]);
+            int gameInstanceId;
+            try
+            {
+                NameValueCollection queryStringMap = HttpUtility.ParseQueryString(req.QueryString.Value);
+                gameInstanceId = int.Parse(queryStringMap["Id"]);
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new BadRequestObjectResult("Request didn't meet syntax requirements (make sure you include everything and have the correct property types)");
+            }
             
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            int rowsDeleted = await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
-
-            // Passing an int into the OkObjectResult will put the int in the body
-            return new OkObjectResult(rowsDeleted);
+            try
+            {
+                await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
+                return new OkObjectResult("Successfully deleted game instance from database");
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new ConflictObjectResult("Conflict when deleting from the database");
+            }
         }
 
         [FunctionName("GetGameInstances")]
