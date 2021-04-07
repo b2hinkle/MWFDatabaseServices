@@ -3,44 +3,54 @@ using MWFModelsLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Data;
+using Dapper;
 
 namespace MWFDataLibrary.BuisnessLogic
 {
     public class HostProcessor
     {
-        public static int CreateHost(string hostIp, string hostServicesAPISocketAddress, bool isActive, string connString)
+        public static async Task<int> CreateHostAndReturnIdAsync(string connString, string hostIp, string hostServicesAPISocketAddress, bool isActive)
         {
-            var parameters = new
-            {
-                HostIp = hostIp,
-                HostServicesAPISocketAddress = hostServicesAPISocketAddress,
-                IsActive = isActive
-            };
+            // name of stored procedure to execute
+            string procedureName = "spHost_CreateAndOutputId";
 
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"insert into dbo.ServerTable (ServerIP, GameInstancesManagementApiIp, GameInstancesManagementApiPort, IsActive)
-                         values (@ServerIP, @GameInstancesManagementApiIp, @GameInstancesManagementApiPort, @IsActive);";
-            return SqlDataAccess.ModifyDatabase(connString, sql, parameters);*/
 
-            throw new NotImplementedException();
+            // create the data table representation of the user defined host table
+            DataTable hostTable = new DataTable("@inHost");
+            hostTable.Columns.Add("HostIp");
+            hostTable.Columns.Add("HostServicesAPISocketAddress");
+            hostTable.Columns.Add("IsActive", typeof(bool));
+            // fill in the data
+            hostTable.Rows.Add(hostIp, hostServicesAPISocketAddress, isActive);
+
+            // make parameters to pass to the stored procedure
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@inHost", hostTable.AsTableValuedParameter("udtHost"), DbType.Object);
+            parameters.Add("@outId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            // execute our stored procedure with the parameters we made
+            await SqlDataAccess.ModifyDataAsync(connString, procedureName, parameters);
+            // return the outputed id from the stored procedure
+            return parameters.Get<int>("@outId");
         }
 
-        public static int RemoveHost(string serverIP, string connString)
+        public static async Task<int> DeleteHostByIdAsync(string connString, int id)
         {
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"DELETE FROM dbo.ServerTable WHERE ServerIP=@ServerIP;";
-            return SqlDataAccess.ModifyDatabase(sql, connString, new { ServerIP = serverIP });*/
+            string storedProcedureName = "spHost_DeleteById";
 
-            throw new NotImplementedException();
+            // make parameters to pass to the stored procedure
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@inId", id, dbType: DbType.Int32);
+
+            return await SqlDataAccess.ModifyDataAsync(connString, storedProcedureName, parameters);
         }
 
-        public static IEnumerable<HostModel> LoadHosts(string connString)
+        public static async Task<IEnumerable<HostModel>> GetHostsAsync(string connString)
         {
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"select * from dbo.ServerTable;";
-            return SqlDataAccess.LoadData<HostModel>(sql, connString);*/
-
-            throw new NotImplementedException();
+            string storedProcedureName = "spHost_SelectAll";
+            return await SqlDataAccess.LoadDataAsync<HostModel>(connString, storedProcedureName);
         }
     }
 }
