@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[tblGameInstance] (
     [Id]             INT          IDENTITY (1, 1) NOT NULL,
+    [ProcessId]      INT          NOT NULL,
     [Game]           INT          NOT NULL,
     [Port]           VARCHAR (5)  NOT NULL,
     [Args]           VARCHAR (64) NOT NULL,

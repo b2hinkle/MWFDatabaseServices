@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[spGameInstance_SelectAll]
+﻿
+CREATE PROCEDURE [dbo].[spGameInstance_SelectAll]
 AS
 BEGIN
 	SET NOCOUNT ON;		--Don't give how many rows affected

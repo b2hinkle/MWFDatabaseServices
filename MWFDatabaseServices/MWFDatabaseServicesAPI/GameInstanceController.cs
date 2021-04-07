@@ -24,15 +24,16 @@ namespace MWFDatabaseServicesAPI
         {
             string requestBody = await req.ReadAsStringAsync();
             JsonElement jsonBody = JsonSerializer.Deserialize<JsonElement>(requestBody);
-            /*GameInstanceModel gameInstance = JsonSerializer.Deserialize<GameInstanceModel>(requestBody);*/
 
             // get all of the values we need for the GameInstanceProcessor (maybe deserialize json to a GameInstanceModel instead? Or maybe just pass a GameInstanceModel with a null Id to this endpoint)
+            int reqProcessId;
             int reqGame;
             string reqPort;
             string reqArgs;
             int reqHostId;
             try
             {
+                reqProcessId = jsonBody.GetProperty("ProcessId").GetInt32();
                 reqGame = jsonBody.GetProperty("Game").GetInt32();
                 reqPort = jsonBody.GetProperty("Port").GetString();
                 reqArgs = jsonBody.GetProperty("Args").GetString();
@@ -49,7 +50,7 @@ namespace MWFDatabaseServicesAPI
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             try
             {
-                int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqGame, reqPort, reqArgs, reqHostId);
+                int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqProcessId, reqGame, reqPort, reqArgs, reqHostId);
                 // Returning a success code means we continue running the newly created game instance process
                 return new OkObjectResult(retVal);
             }
