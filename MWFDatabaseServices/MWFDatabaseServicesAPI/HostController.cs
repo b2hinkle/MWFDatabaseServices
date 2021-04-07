@@ -87,7 +87,6 @@ namespace MWFDatabaseServicesAPI
         {
             string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             IEnumerable<HostModel> Hosts = await HostProcessor.GetHostsAsync(connectionString);
-            // Passing an IEnumerable into the OkObjectResult will put it in the body
             return new OkObjectResult(Hosts);
         }
 
