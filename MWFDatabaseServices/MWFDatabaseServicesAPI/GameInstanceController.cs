@@ -79,11 +79,19 @@ namespace MWFDatabaseServicesAPI
                 return new BadRequestObjectResult("Request didn't meet syntax requirements (make sure you include everything and have the correct property types)");
             }
             
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-            // Maybe have the sp throw exception if id passed in doesn't exist and we can do a try catch here to give a more specific response message
-            await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
-            return new OkObjectResult("Row with passed in Id deleted");
+
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            try
+            {
+                await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new ConflictObjectResult("Tried to delete row that didn't exist");
+            }
+            return new OkObjectResult("Row successfully deleted");
         }
 
         [FunctionName("GetGameInstances")]
