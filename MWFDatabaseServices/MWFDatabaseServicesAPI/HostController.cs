@@ -17,6 +17,7 @@ namespace MWFDatabaseServicesAPI
 {
     public static class HostController
     {
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         [FunctionName("CreateHostAndReturnId")]
         public static async Task<IActionResult> CreateHostAndReturnId(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
@@ -43,7 +44,6 @@ namespace MWFDatabaseServicesAPI
             }
 
             // call on the data processor and store the returned Id
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             try
             {
                 int retVal = await HostProcessor.CreateHostAndReturnIdAsync(connectionString, reqHostIp, reqHostServicesAPISocketAddress, reqIsActive);
@@ -75,7 +75,6 @@ namespace MWFDatabaseServicesAPI
                 return new BadRequestObjectResult("Request didn't meet syntax requirements (make sure you include everything and have the correct property types)");
             }
 
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             try
             {
                 await HostProcessor.DeleteHostByIdAsync(connectionString, hostId);
@@ -93,7 +92,6 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             IEnumerable<HostModel> Hosts = await HostProcessor.GetHostsAsync(connectionString);
             return new OkObjectResult(Hosts);
         }
