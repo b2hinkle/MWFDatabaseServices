@@ -17,6 +17,8 @@ namespace MWFDatabaseServicesAPI
 {
     public static class GameInstanceController
     {
+        static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
         [FunctionName("CreateGameInstanceAndReturnId")]
         public static async Task<IActionResult> CreateGameInstanceAndReturnId(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
@@ -47,7 +49,6 @@ namespace MWFDatabaseServicesAPI
 
 
             // call on the data processor and store the returned Id
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             try
             {
                 int retVal = await GameInstanceProcessor.CreateGameInstanceAndReturnIdAsync(connectionString, reqProcessId, reqGame, reqPort, reqArgs, reqHostId);
@@ -81,7 +82,6 @@ namespace MWFDatabaseServicesAPI
             
 
 
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             try
             {
                 await GameInstanceProcessor.DeleteGameInstanceByIdAsync(connectionString, gameInstanceId);
@@ -113,7 +113,6 @@ namespace MWFDatabaseServicesAPI
 
 
 
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             int rowsDeleted = await GameInstanceProcessor.DeleteGameInstancesByHostIdAsync(connectionString, reqHostId);
             
             return new OkObjectResult(rowsDeleted);
@@ -124,7 +123,6 @@ namespace MWFDatabaseServicesAPI
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             IEnumerable<GameInstanceModel> GameInstances = await GameInstanceProcessor.GetGameInstancesAsync(connectionString);
             return new OkObjectResult(GameInstances);
         }
@@ -134,7 +132,6 @@ namespace MWFDatabaseServicesAPI
     [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
     ILogger log)
         {
-            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             IEnumerable<GameInstanceWithHostIpModel> GameInstancesWithHostIps = await GameInstanceProcessor.GetGameInstancesWithHostsAsync(connectionString);
             return new OkObjectResult(GameInstancesWithHostIps);
         }
