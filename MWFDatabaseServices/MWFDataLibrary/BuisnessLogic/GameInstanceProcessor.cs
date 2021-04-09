@@ -47,6 +47,17 @@ namespace MWFDataLibrary.BuisnessLogic
 
             return await SqlDataAccess.ModifyDataAsync(connString, storedProcedureName, parameters);
         }
+        public static async Task<int> DeleteGameInstancesByHostIdAsync(string connString, int hostId)
+        {
+            string storedProcedureName = "spGameInstance_DeleteByHostId";
+
+            // make parameters to pass to the stored procedure
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@inHostId", hostId, dbType: DbType.Int32);
+            parameters.Add("@outRowsAffected", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            return await SqlDataAccess.ModifyDataAsync(connString, storedProcedureName, parameters);
+        }
 
         public static async Task<IEnumerable<GameInstanceModel>> GetGameInstancesAsync(string connString)
         {

@@ -4,6 +4,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;		--Don't give how many rows affected
 
+	DELETE FROM [tblGameInstance] WHERE HostId=@inId;
 
 	IF EXISTS (SELECT * FROM [tblGameInstance] WHERE Id = @inId)
 	BEGIN;

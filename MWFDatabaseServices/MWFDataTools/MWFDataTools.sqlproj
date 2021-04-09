@@ -75,6 +75,7 @@
     <Build Include="dbo\Stored Procedures\Host\spHost_CreateAndOutputId.sql" />
     <Build Include="dbo\Types\udtHost.sql" />
     <Build Include="dbo\Stored Procedures\Host\spHost_DeleteById.sql" />
+    <Build Include="dbo\Stored Procedures\GameInstance\spGameInstance_DeleteByHostId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MWFDataTools.publish.xml" />

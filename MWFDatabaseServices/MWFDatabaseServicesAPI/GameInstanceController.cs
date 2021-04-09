@@ -94,6 +94,31 @@ namespace MWFDatabaseServicesAPI
             return new OkObjectResult("Row successfully deleted");
         }
 
+        [FunctionName("DeleteGameInstancesByHostId")]
+        public static async Task<IActionResult> DeleteGameInstancesByHostId(
+    [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req,
+    ILogger log)
+        {
+            int reqHostId;
+            try
+            {
+                NameValueCollection queryStringMap = HttpUtility.ParseQueryString(req.QueryString.Value);
+                reqHostId = int.Parse(queryStringMap["HostId"]);
+            }
+            catch (Exception e)
+            {
+                log.LogError(e, e.Message);
+                return new BadRequestObjectResult("Request didn't meet syntax requirements (make sure you include everything and have the correct property types)");
+            }
+
+
+
+            string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MWFDatabaseServicesDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            int rowsDeleted = await GameInstanceProcessor.DeleteGameInstancesByHostIdAsync(connectionString, reqHostId);
+            
+            return new OkObjectResult(rowsDeleted);
+        }
+
         [FunctionName("GetGameInstances")]
         public static async Task<IActionResult> GetGameInstances(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
