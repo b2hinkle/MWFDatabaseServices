@@ -61,15 +61,32 @@
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Types" />
     <Folder Include="dbo\Views" />
-    <Folder Include="PublishProfiles" />
+    <Folder Include="PublishProfiles\" />
+    <Folder Include="dbo\Stored Procedures\Host" />
+    <Folder Include="dbo\Stored Procedures\GameInstance" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Stored Procedures\spGameInstance_CreateAndOutputId.sql" />
-    <Build Include="dbo\Stored Procedures\spGameInstance_DeleteById.sql" />
     <Build Include="dbo\Tables\tblGameInstance.sql" />
     <Build Include="dbo\Tables\tblHost.sql" />
+    <Build Include="dbo\Types\udtGameInstance.sql" />
+    <Build Include="dbo\Views\vwGameInstanceWithHostIp.sql" />
+    <Build Include="dbo\Stored Procedures\GameInstance\spGameInstance_CreateAndOutputId.sql" />
+    <Build Include="dbo\Stored Procedures\Host\spHost_SelectAll.sql" />
+    <Build Include="dbo\Stored Procedures\Host\spHost_CreateAndOutputId.sql" />
+    <Build Include="dbo\Types\udtHost.sql" />
+    <Build Include="dbo\Stored Procedures\Host\spHost_DeleteById.sql" />
+    <Build Include="dbo\Stored Procedures\GameInstance\spGameInstance_DeleteByHostId.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PublishProfiles\LocalMultiplayerWebServicesDB.publish.xml" />
+    <None Include="MWFDataTools.publish.xml" />
+    <None Include="MWFDatabaseServicesDb.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="MWFDataTools.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Stored Procedures\GameInstance\spGameInstance_DeleteById.sql" />
+    <Build Include="dbo\Stored Procedures\GameInstance\spGameInstance_SelectAll.sql" />
+    <Build Include="dbo\Stored Procedures\GameInstance\spGameInstanceWithHost_SelectAll.sql" />
   </ItemGroup>
 </Project>

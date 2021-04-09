@@ -2,6 +2,7 @@
 using Dapper;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using System.Threading.Tasks;
 
 /*  Dapper functions notes
          *  Query: Use when loading data since you will probably want the rows returned to you
@@ -18,8 +19,8 @@ namespace MWFDataLibrary.DataAccess
     internal static class SqlDataAccess
     {
         //  90% of loading data will call this. However if you want a stored procedure with output parameters, the caller
-        //  will need to know about Dapper since it will need to use the dynamic parameters type 
-        public static IEnumerable<T> LoadData<T/*, U*/>(string connString, string storedProcedureName, object/*U*/ parameters)
+        //  will need to know about Dapper if passing in parameters since it will need to use the dynamic parameters type 
+        public static IEnumerable<T> LoadData<T/*, U*/>(string connString, string storedProcedureName, object/*U*/ parameters = null)
         {
             using (IDbConnection cnn = new SqlConnection(connString))
             {
@@ -28,13 +29,34 @@ namespace MWFDataLibrary.DataAccess
             }
         }
 
-        //  I should make a more advanced version eventually that is async to save some time
-        public static void SaveData/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters)
+
+        public static int ModifyData/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters = null)
         {
             using (IDbConnection cnn = new SqlConnection(connString))
             {
-                cnn.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
+                return cnn.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
             }
         }
+
+
+
+        public static async Task<IEnumerable<T>> LoadDataAsync<T/*, U*/>(string connString, string storedProcedureName, object/*U*/ parameters = null)
+        {
+            using (IDbConnection cnn = new SqlConnection(connString))
+            {
+                return await cnn.QueryAsync<T>(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public static async Task<int> ModifyDataAsync/*<T>*/(string connString, string storedProcedureName, object/*T*/ parameters = null)
+        {
+            using (IDbConnection cnn = new SqlConnection(connString))
+            {
+                return await cnn.ExecuteAsync(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+
+
     }
 }

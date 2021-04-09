@@ -1,47 +1,73 @@
 ﻿using MWFDataLibrary.DataAccess;
-using MultiplayerFrameworkModelsLibrary.Models;
+using MWFModelsLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using Dapper;
+using System.Threading.Tasks;
 
 namespace MWFDataLibrary.BuisnessLogic
 {
     public static class GameInstanceProcessor
     {
-        public static int CreateGameInstance(string game, string args, string associatedServer, string connString)
+        public static async Task<int> CreateGameInstanceAndReturnIdAsync(string connString, int processId, int game, string port, string args, int hostId)
         {
-            var parameters = new
-            {
-                Game = game,
-                Args = args,
-                AssociatedServer = associatedServer
-            };
+            // name of stored procedure to execute
+            string procedureName = "spGameInstance_CreateAndOutputId";
 
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"insert into dbo.GameInstanceTable (Game, Args, AssociatedServer)
-                         values (@Game, @Args, @AssociatedServer);";
-            return SqlDataAccess.ModifyDatabase(connString, sql, parameters);*/
 
-            /*SaveData(connection string here, "spGameInstance_CreateAndOutputId", object*//*T*//* parameters)*/
+            // create the data table representation of the user defined game instance table
+            DataTable gameInstanceTable = new DataTable("@inGameInstance");
+            gameInstanceTable.Columns.Add("ProcessId", typeof(int));
+            gameInstanceTable.Columns.Add("Game", typeof(int));
+            gameInstanceTable.Columns.Add("Port");
+            gameInstanceTable.Columns.Add("Args");
+            gameInstanceTable.Columns.Add("HostId");
+            // fill in the data
+            gameInstanceTable.Rows.Add(processId, game, port, args, hostId);
 
-            throw new NotImplementedException();
+            // make parameters to pass to the stored procedure
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@inGameInstance", gameInstanceTable.AsTableValuedParameter("udtGameInstance"), DbType.Object);
+            parameters.Add("@outId", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            // execute our stored procedure with the parameters we made
+            await SqlDataAccess.ModifyDataAsync(connString, procedureName, parameters);
+            // return the outputed id from the stored procedure
+            return parameters.Get<int>("@outId");
         }
 
-        public static int RemoveGameInstance(int id, string connString)
+        public static async Task<int> DeleteGameInstanceByIdAsync(string connString, int id)
         {
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"DELETE FROM dbo.GameInstanceTable WHERE Id=@Id;";
-            return SqlDataAccess.ModifyDatabase(sql, connString, new { Id = id });*/
+            string storedProcedureName = "spGameInstance_DeleteById";
 
-            throw new NotImplementedException();
+            // make parameters to pass to the stored procedure
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@inId", id, dbType: DbType.Int32);
+
+            return await SqlDataAccess.ModifyDataAsync(connString, storedProcedureName, parameters);
+        }
+        public static async Task<int> DeleteGameInstancesByHostIdAsync(string connString, int hostId)
+        {
+            string storedProcedureName = "spGameInstance_DeleteByHostId";
+
+            // make parameters to pass to the stored procedure
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@inHostId", hostId, dbType: DbType.Int32);
+            parameters.Add("@outRowsAffected", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            return await SqlDataAccess.ModifyDataAsync(connString, storedProcedureName, parameters);
         }
 
-        public static IEnumerable<GameInstanceModel> LoadGameInstances(string connString)
+        public static async Task<IEnumerable<GameInstanceModel>> GetGameInstancesAsync(string connString)
         {
-            //  Old way (not using stored procedures and using older function that took in a string sql)
-            /*string sql = @"select * from dbo.GameInstanceTable;";
-            return SqlDataAccess.LoadData<GameInstanceModel>(sql, connString);*/
-
-            throw new NotImplementedException();
+            string storedProcedureName = "spGameInstance_SelectAll";
+            return await SqlDataAccess.LoadDataAsync<GameInstanceModel>(connString, storedProcedureName);
+        }
+        public static async Task<IEnumerable<GameInstanceWithHostIpModel>> GetGameInstancesWithHostsAsync(string connString)
+        {
+            string storedProcedureName = "spGameInstanceWithHost_SelectAll";
+            return await SqlDataAccess.LoadDataAsync<GameInstanceWithHostIpModel>(connString, storedProcedureName);
         }
     }
 }

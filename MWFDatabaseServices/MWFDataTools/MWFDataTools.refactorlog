@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="a84b8a8d-0e63-474d-892f-4e4a99f522d8" ChangeDateTime="03/04/2021 20:21:03">
+    <Property Name="ElementName" Value="[dbo].[tblHost].[AssociatedHostServicesAPISocketAddress]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblHost]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HostServicesAPISocketAddress" />
+  </Operation>
+</Operations>
