@@ -3,7 +3,7 @@
     [ProcessId]      INT          NOT NULL,
     [Game]           INT          NOT NULL,
     [Port]           VARCHAR (5)  NOT NULL,
-    [Args]           VARCHAR (64) NOT NULL,
+    [Args]           VARCHAR (64),
     [HostId]	INT FOREIGN KEY REFERENCES tblHost(Id) NOT NULL,
 
     PRIMARY KEY CLUSTERED ([Id] ASC)
