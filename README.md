@@ -1,2 +1,2 @@
 # MWFDatabaseServices
-Holds everything related to the multiplayer web framework database (API interaction, data library for data access, DataTools project)
+Serverless web API for communication with the database. Also contains the database structure (Data Tools project).
